@@ -1,0 +1,27 @@
+{
+  "name": "2560",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --watch --mode=development",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bcwan/2560.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bcwan/2560/issues"
+  },
+  "homepage": "https://github.com/bcwan/2560#readme",
+  "dependencies": {
+    "lodash": "^4.17.15",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  }
+}

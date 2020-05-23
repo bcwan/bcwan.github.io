@@ -1,0 +1,31 @@
+#board {
+  padding: 10px;
+  background-color: #bde6ff;
+  width: 450px;
+  margin: auto;
+  border-radius: 8px;
+  position: relative;
+  height: 450px;
+}
+
+.row {
+  display: flex;
+}
+
+.square {
+  background-color: #e3f7fc;
+  width: 80px;
+  height: 80px;
+  margin: 5px;
+  border-radius: 4px;
+}
+
+#grid-container {
+  position: absolute;
+  z-index: 1;
+}
+
+#tile-container {
+  position: absolute;
+  z-index: 2;
+}
