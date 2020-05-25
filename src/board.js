@@ -1,31 +1,3 @@
-// const GRID_TO_ARRAY_COOR = {
-//   [0, 0]: { className: "grid-0-0" },
-//   [0, 1]: { className: "grid-0-1" },
-//   [0, 2]: { className: "grid-0-2" },
-//   [0, 3]: { className: "grid-0-3" },
-//   [0, 4]: { className: "grid-0-4" },
-//   [1, 0]: { className: "grid-1-0" },
-//   [1, 1]: { className: "grid-1-1" },
-//   [1, 2]: { className: "grid-1-2" },
-//   [1, 3]: { className: "grid-1-3" },
-//   [1, 4]: { className: "grid-1-4" },
-//   [2, 0]: { className: "grid-2-0" },
-//   [2, 1]: { className: "grid-2-1" },
-//   [2, 2]: { className: "grid-2-2" },
-//   [2, 3]: { className: "grid-2-3" },
-//   [2, 4]: { className: "grid-2-4" },
-//   [3, 0]: { className: "grid-3-0" },
-//   [3, 1]: { className: "grid-3-1" },
-//   [3, 2]: { className: "grid-3-2" },
-//   [3, 3]: { className: "grid-3-3" },
-//   [3, 4]: { className: "grid-3-4" },
-//   [4, 0]: { className: "grid-4-0" },
-//   [4, 1]: { className: "grid-4-1" },
-//   [4, 2]: { className: "grid-4-2" },
-//   [4, 3]: { className: "grid-4-3" },
-//   [4, 4]: { className: "grid-4-4" }
-// };
-
 class Board {
   constructor() {
     this.grid = Board.makeGrid();
@@ -72,6 +44,69 @@ class Board {
         }
       }
     }
+  }
+
+  lastEmptyPosUp(posClass) {
+    let pos = posClass.split("-");
+    let row = parseInt(pos[1]);
+    let currentCol = parseInt(pos[2]);
+
+    row = row - 1;
+    while (row >= 0) {
+      if (this.grid[row][currentCol] === null) {
+        row--;
+      } else {
+        return row + 1;
+      }
+    }
+    return 0;
+  }
+
+  lastEmptyPosDown(posClass) {
+    let pos = posClass.split("-");
+    let row = parseInt(pos[1]);
+    let currentCol = parseInt(pos[2]);
+
+    row = row + 1;
+    while (row <= this.grid.length - 1) {
+      if (this.grid[row][currentCol] === null) {
+        row++;
+      } else {
+        return row - 1;
+      }
+    }
+    return this.grid.length - 1;
+  }
+
+  lastEmptyPosLeft(posClass) {
+    let pos = posClass.split("-");
+    let currentRow = parseInt(pos[1]);
+    let col = parseInt(pos[2]);
+    col = col - 1;
+    while (col >= 0) {
+      if (this.grid[currentRow][col] === null) {
+        col--;
+      } else {
+        return col + 1;
+      }
+    }
+    return 0;
+  }
+
+  lastEmptyPosRight(posClass) {
+    let pos = posClass.split("-");
+    let currentRow = parseInt(pos[1]);
+    let col = parseInt(pos[2]);
+    
+    col = col + 1;
+    while (col <= this.grid[currentRow].length) {
+      if (this.grid[currentRow][col] === null) {
+        col++;
+      } else {
+        return col - 1;
+      }
+    }
+    return this.grid[currentRow].length - 1;
   }
 
 }

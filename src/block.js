@@ -11,33 +11,23 @@ const COLORS_BY_NUMBER = {
 
 class Block {
   // pass in coordinates of block on grid
-  constructor(pos) {
-    this.number = 5;
-    this.color = "#C1FF00";//COLORS_BY_NUMBER[this.number];
+  constructor(pos, number) {
+    this.number = number;
+    this.color = COLORS_BY_NUMBER[this.number];
     this.textColor = "#000000";
     this.block = document.createElement("div");
-    this.createBlock(pos);
+    this.row = pos[0];
+    this.column = pos[1];
+    this.positionClass = `grid-${pos[0]}-${pos[1]}`;
+    this.createBlock();
   }
 
 
-  updateNumber() {
-    this.number *= 2;
-    if (COLORS_BY_NUMBER[this.number]) {
-      this.color = COLORS_BY_NUMBER[this.number];
-    }
-  }
-
-  createBlock(pos) {
+  createBlock() {
     this.block.id = "block";
     this.block.style.backgroundColor = this.color;
-
+    this.block.classList.add(this.positionClass);
     this.block.appendChild(this.createBlockNumber(this.number));
-    
-    this.block.style.top = `${pos[0]}px`;
-    this.block.style.left = `${pos[1]}px`;
-
-    this.block.setAttribute("top", `${pos[0]}`);
-    this.block.setAttribute("left", `${pos[1]}`);
 
   }
 
@@ -49,33 +39,6 @@ class Block {
     blockNum.textColor = this.textColor;
 
     return blockNum;
-  }
-
-  slideHorizontal(pos) {
-    let newPos = `${pos[0]}`;
-    let oldPosAttr = this.block.getAttribute("top");
-    if (newPos !== oldPosAttr) {
-      throw `: x-axis positions do not match: newPosition: ${newPos}, oldPosition: ${oldPosAttr} `;
-    }
-
-    let translateX = pos[1] - this.block.getAttribute("left");
-    debugger;
-    this.block.style.transform = `translateX(${translateX}px)`;
-
-  }
-
-
-
-  slideVertical(pos) {
-    let newPos = `${pos[1]}`;
-    let oldPosAttr = this.block.getAttribute("left");
-    if (newPos !== oldPosAttr) {
-      throw `: y-axis positions do not match: destPosition: ${newPos}, oldPosition: ${oldPosAttr} `;
-    }
-  
-    let translateY = pos[0] - this.block.getAttribute("top");
-    this.block.style.transform = `translateY(${translateY}px)`;
-
   }
 
 }

@@ -3,18 +3,48 @@ let Game = require("./game");
 let Block = require("./block");
 
 document.addEventListener("DOMContentLoaded", function () {
-    const game = new Game();
-    
-    // test code
-    // let testBlock = new Block([15, 15]);
-    // let grid = document.querySelector("#board");
-    // grid.appendChild(testBlock.block);
+    let game = new Game();
 
-    // console.log("Slide left to right");
-    // testBlock.slideHorizontal([15, 375])
+    function onKeyPressed (event) {
+        
+        switch (event.which) {
+            case 37: 
+                game.updateBoardMovementLeftUp("left");
+                game.addNewBlock();
+                console.log(game.board.grid);
+                break;
+            case 39:  
+                game.updateBoardMovementRightDown("right");
+                game.addNewBlock();
+                console.log(game.board.grid);
+                break;
+            case 38:  
+                game.updateBoardMovementLeftUp("up");
+                game.addNewBlock();
+                console.log(game.board.grid);
+                break;
+            case 40: 
+                game.updateBoardMovementRightDown("down");
+                game.addNewBlock();
+                console.log(game.board.grid);
+                break;
+        }
+    }
 
+    function resetGame() {
+        document.getElementById('board').textContent = '';
+        game.board = null;
+        game = new Game();
+    }
 
-    // testBlock.slideVertical([375, 375]);
-    
+    // listening for arrow keys
+    window.onkeydown = onKeyPressed;
+
+    // reset game
+    let resetBtn = document.querySelector(".restart-btn");
+    resetBtn.onclick = () => {
+        resetGame();
+    };
+
 });
 

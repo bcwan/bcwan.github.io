@@ -32,9 +32,226 @@ class Game {
     const blockContainer = document.createElement('div');
     blockContainer.id = "block-container";
     document.getElementById("board").appendChild(blockContainer);
+
+    this.addNewBlock();
+    this.addNewBlock();
   }
 
-  
+  addNewBlock () {
+    let blockContainer = document.getElementById('block-container');
+    let randRow = Math.floor(Math.random() * 5);
+    let randCol = Math.floor(Math.random() * 5);
+    let added = false;
+    while (!added){
+      if (this.board.isEmptyPos([randRow, randCol])) {
+        let newBlock = new Block([randRow, randCol], 5);
+        this.board.grid[randRow][randCol] = newBlock;
+        blockContainer.appendChild(newBlock.block);
+        added = true;
+      } else {
+        randRow = Math.floor(Math.random() * 5);
+        randCol = Math.floor(Math.random() * 5);
+      }
+    }
+  }
+
+  updateBoardMovementLeftUp(direction) {
+    for (let row = 0; row < this.board.grid.length; row++) {
+      for (let col = 0; col < this.board.grid[row].length; col++) {
+
+        let blk = this.board.grid[row][col];
+        if (blk !== null) {
+          switch(direction) {
+            case "up":
+              this.mergeBlockUp(blk.positionClass);
+              this.updateClassPosition(blk, 1, 
+                this.board.lastEmptyPosUp(blk.positionClass)
+              );
+              break;
+            case "left":
+              this.mergeBlockLeft(blk.positionClass);
+              this.updateClassPosition(blk, 2, 
+                this.board.lastEmptyPosLeft(blk.positionClass)
+              );
+              break;
+          }
+        }
+
+      }
+    }
+  }
+
+  updateBoardMovementRightDown(direction) {
+    for (let row = this.board.grid.length - 1; row >= 0; row--) {
+      for (let col = this.board.grid[row].length - 1; col >= 0; col--) {
+        let blk = this.board.grid[row][col];
+        if (blk !== null) {
+          switch (direction) {
+            case "right":
+              this.mergeBlockRight(blk.positionClass);
+              this.updateClassPosition(blk, 2,
+                this.board.lastEmptyPosRight(blk.positionClass)
+              );
+              break
+            case "down":
+              this.mergeBlockDown(blk.positionClass);
+              this.updateClassPosition(blk, 1,
+                this.board.lastEmptyPosDown(blk.positionClass)
+              );
+              break;
+          }
+        }
+
+      }
+    }
+  }
+
+  updateClassPosition(blk, indexToChange, number) {
+    let parseClass = blk.positionClass.split("-");
+
+    let oldX = parseClass[1];
+    let oldY = parseClass[2];
+
+    parseClass[indexToChange] = number.toString();
+
+    let newX = parseClass[1];
+    let newY = parseClass[2];
+
+    parseClass = parseClass.join("-");
+
+    this.updateGridPosition(oldX, oldY, newX, newY);
+
+    blk.block.className = "";
+    blk.block.classList.add(parseClass);
+    blk.positionClass = parseClass;
+  }
+
+  updateGridPosition(oldX, oldY, newX, newY) {
+    let block = this.board.grid[oldX][oldY];
+    this.board.grid[oldX][oldY] = null;
+    this.board.grid[newX][newY] = block;
+  }
+
+  //merging
+
+  mergeBlockRight(posClass) {
+    //find the closest block
+    let pos = posClass.split("-");
+    let currentRow = parseInt(pos[1]);
+    let col = parseInt(pos[2]);
+    let currentBlock = this.board.grid[currentRow][col];
+
+    let oldCol = col;
+    let oldRow = currentRow;
+    col = col + 1;
+    let nextBlock = null;
+
+    while (col < this.board.grid[currentRow].length) {
+      if (this.board.grid[currentRow][col] === null) {
+        col++;
+      } else {
+        nextBlock = this.board.grid[currentRow][col];
+        break;
+      }
+    }
+
+    this.merging(nextBlock, currentBlock, oldRow, oldCol, currentRow, col);
+  }
+
+  mergeBlockLeft(posClass) {
+    //find the closest block
+    let pos = posClass.split("-");
+    let currentRow = parseInt(pos[1]);
+    let col = parseInt(pos[2]);
+    let currentBlock = this.board.grid[currentRow][col];
+
+    let oldCol = col;
+    let oldRow = currentRow;
+    col = col - 1;
+    let nextBlock = null;
+
+    while (col >= 0) {
+      if (this.board.grid[currentRow][col] === null) {
+        col--;
+      } else {
+        nextBlock = this.board.grid[currentRow][col];
+        break;
+      }
+    }
+
+    this.merging(nextBlock, currentBlock, oldRow, oldCol, currentRow, col);
+  }
+
+  mergeBlockUp(posClass) {
+    //find the closest block
+    let pos = posClass.split("-");
+    let row = parseInt(pos[1]);
+    let currentCol = parseInt(pos[2]);
+    let currentBlock = this.board.grid[row][currentCol];
+
+    let oldCol = currentCol;
+    let oldRow = row;
+    row = row - 1;
+    let nextBlock = null;
+
+
+    while (row >= 0) {
+      if (this.board.grid[row][currentCol] === null) {
+        row--;
+      } else {
+        nextBlock = this.board.grid[row][currentCol];
+        break;
+      }
+    }
+
+    this.merging(nextBlock, currentBlock, oldRow, oldCol, row, currentCol);
+  }
+
+  mergeBlockDown(posClass) {
+    //find the closest block
+    let pos = posClass.split("-");
+    let row = parseInt(pos[1]);
+    let currentCol = parseInt(pos[2]);
+    let currentBlock = this.board.grid[row][currentCol];
+
+    let oldCol = currentCol;
+    let oldRow = row;
+    row = row + 1;
+    let nextBlock = null;
+
+
+    while (row < this.board.grid.length) {
+      if (this.board.grid[row][currentCol] === null) {
+        row++;
+      } else {
+        nextBlock = this.board.grid[row][currentCol];
+        break;
+      }
+    }
+
+    this.merging(nextBlock, currentBlock, oldRow, oldCol, row, currentCol);
+  }
+
+  merging (nextBlock, currBlock, oldRow, oldCol, currRow, currCol) {
+    if (nextBlock !== null && currBlock.number === nextBlock.number) {
+      // delete current block
+      let currentNextBlockNumber = nextBlock.number;
+
+      currBlock.block.remove();
+      this.board.grid[oldRow][oldCol] = null;
+
+      nextBlock.block.remove();
+      this.board.grid[currRow][currCol] = null;
+
+      // add new block in place of old one
+      let upgradedBlock = new Block([currRow, currCol], currentNextBlockNumber * 2);
+      this.board.grid[currRow][currCol] = upgradedBlock;
+
+      let blockContainer = document.getElementById('block-container');
+      blockContainer.appendChild(upgradedBlock.block);
+    }
+  }
+
 
 }
 

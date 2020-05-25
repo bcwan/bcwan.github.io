@@ -25,7 +25,9 @@
   z-index: 1;
 }
 
-#tile-container {
+#block-container {
+  margin: 5px;
   position: absolute;
   z-index: 2;
 }
+
