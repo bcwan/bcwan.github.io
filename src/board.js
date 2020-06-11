@@ -24,12 +24,24 @@ class Board {
     return ((0 <= pos[0]) && (pos[0] < 5) && (0 <= pos[1]) && (pos[1] < 5));
   }
 
+  numberOfEmptyPos() {
+    let emptyPos = 0;
+    for(let row = 0; row < this.grid.length; row++) {
+      for(let col = 0; col < this.grid[row].length; col++) {
+        if (this.grid[row][col] === null) {
+          emptyPos++;
+        }
+      }
+    }
+    return emptyPos;
+  }
+
   currentScore() {
     let score = 0;
     for(let i = 0; i < this.grid.length; i++) {
       for (let j = 0; j < this.grid[i].length; j++) {
         if (this.grid[i][j] !== null) {
-          score += this.grid[i][j];
+          score += this.grid[i][j].number;
         }
       }
     }
@@ -108,6 +120,10 @@ class Board {
     }
     return this.grid[currentRow].length - 1;
   }
+
+
+
+
 
 }
 

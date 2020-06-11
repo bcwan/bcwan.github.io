@@ -8,14 +8,13 @@ body {
 }
 
 .title-name {
-  text-align: center;
   font-family: clear-sans;
   font-size: 60px;
   margin-bottom: 10px;
   color: #877674;
 }
 
-.restart-btn {
+.restart-btn-on-page {
     background-color: darkgrey;
     border: none;
     color: white;
@@ -27,4 +26,65 @@ body {
     display: block;
     margin: auto;
     margin-top: 25px;
+}
+
+.instr-how {
+  font-family: clear-sans;
+  text-align: center;
+  color: lightslategray;
+}
+
+.instr-goal {
+  font-family: clear-sans;
+  text-align: center;
+  color: lightslategray;
+}
+
+.title-row {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.points {
+  background-color: #b9ddf7;
+  width: 135px;
+  height: 75px;
+  margin-top: auto;
+  margin-bottom: 10px;
+  margin-left: 40px;
+  border-radius: 7px;
+}
+
+.points-title {
+  font-family: clear-sans;
+  color: lightslategray;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+#score {
+  font-family: clear-sans;
+  font-size: 30px;
+  margin-top: 0;
+  margin-bottom: 0;
+  color: lightslategrey;
+}
+
+#game-over-cover {
+  position: absolute;
+  z-index: 12;
+  width: 450px;
+  height: 450px;
+  background-color: #d2d2d2;
+  opacity: .90;
+  border-radius: 5px;
+}
+
+#over-cover-title {
+  font-family: clear-sans;
+  font-size: 50px;
+  color: black;
+  margin-top: 180px;
+  text-align: center;
 }

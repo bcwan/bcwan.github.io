@@ -12,9 +12,17 @@
 
 <body>
   <section class="game-session">
-    <h1 class="title-name">2560</h1>
+    <div class="title-row">
+      <h1 class="title-name">2560</h1>
+      <div class="points">
+        <p class="points-title">Points</p>
+        <div id="total-points-div"></div>
+      </div>
+    </div>
     <div id="board"></div>
-    <button class="restart-btn" type="button">Restart Game</button>
+    <button class="restart-btn-on-page" type="button">Restart Game</button>
+    <p class="instr-how">HOW TO PLAY: Press arrow keys to move tiles. If two tiles match and collide, they add up and merge.</p>
+    <p class="instr-goal">GOAL: Aim to build a 2560 block or higher.</p>
   </section>
 </body>
 

@@ -6,7 +6,17 @@ class Game {
     this.board = new Board();
     this.setUpBoard();
     this.setUpBlockContainer();
+    this.setUpScore();
   }
+
+
+  setUpScore() {
+    const points = document.createElement("p");
+    points.id = "score";
+    points.innerHTML = 0;
+    document.getElementById("total-points-div").appendChild(points);
+  }
+
 
   setUpBoard() {  
     const grid = document.createElement("div");
@@ -35,24 +45,68 @@ class Game {
 
     this.addNewBlock();
     this.addNewBlock();
+
   }
 
-  addNewBlock () {
+  addNewBlock() {
     let blockContainer = document.getElementById('block-container');
     let randRow = Math.floor(Math.random() * 5);
     let randCol = Math.floor(Math.random() * 5);
     let added = false;
-    while (!added){
-      if (this.board.isEmptyPos([randRow, randCol])) {
-        let newBlock = new Block([randRow, randCol], 5);
-        this.board.grid[randRow][randCol] = newBlock;
-        blockContainer.appendChild(newBlock.block);
-        added = true;
-      } else {
-        randRow = Math.floor(Math.random() * 5);
-        randCol = Math.floor(Math.random() * 5);
+    if (this.board.numberOfEmptyPos() > 0) {
+      while (!added){
+        if (this.board.isEmptyPos([randRow, randCol])) {
+          let newBlock = new Block([randRow, randCol], 5);
+          this.board.grid[randRow][randCol] = newBlock;
+          blockContainer.appendChild(newBlock.block);
+          added = true;
+        } else {
+          randRow = Math.floor(Math.random() * 5);
+          randCol = Math.floor(Math.random() * 5);
+        }
+      }
+    } else {
+      this.gameOver();
+    }
+  }
+
+  /// test functions for future development
+  testGameOver(row, col, number) {
+    let blockContainer = document.getElementById('block-container');
+    let newBlock = new Block([row, col], number);
+    this.board.grid[row][col] = newBlock;
+    blockContainer.appendChild(newBlock.block);
+  }
+
+  buildTest(data){
+    for (let row = 0; row < 5; row++) {
+      for (let col = 0; col < 5; col++) {
+        this.testGameOver(row, col, data[row][col]);
       }
     }
+  }
+
+  gameOver() {
+    let gameOverCover = document.createElement('div');
+    gameOverCover.id = "game-over-cover";
+
+    this.gameOverSetupAttr(gameOverCover, "p", "over-cover-title", "Game over!");
+
+    let board = document.getElementById('board');
+    board.appendChild(gameOverCover);
+  }
+
+  gameOverSetupAttr(cover, tagType, idName, desc) {
+    let element = document.createElement(tagType);
+    element.id = idName;
+    element.innerHTML = desc;
+    cover.appendChild(element);
+  }
+
+  // works if setUpScore is invoked, since score p-tag exists
+  updateScore() {
+    let newScore = this.board.currentScore();
+    document.getElementById('score').innerHTML = newScore;
   }
 
   updateBoardMovementLeftUp(direction) {
@@ -67,12 +121,14 @@ class Game {
               this.updateClassPosition(blk, 1, 
                 this.board.lastEmptyPosUp(blk.positionClass)
               );
+              this.updateScore();
               break;
             case "left":
               this.mergeBlockLeft(blk.positionClass);
               this.updateClassPosition(blk, 2, 
                 this.board.lastEmptyPosLeft(blk.positionClass)
               );
+              this.updateScore();
               break;
           }
         }
@@ -92,12 +148,14 @@ class Game {
               this.updateClassPosition(blk, 2,
                 this.board.lastEmptyPosRight(blk.positionClass)
               );
+              this.updateScore();
               break
             case "down":
               this.mergeBlockDown(blk.positionClass);
               this.updateClassPosition(blk, 1,
                 this.board.lastEmptyPosDown(blk.positionClass)
               );
+              this.updateScore();
               break;
           }
         }
