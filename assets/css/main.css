@@ -3516,16 +3516,16 @@ input, select, textarea {
 	}
 
 	.react-logo {
-		width: 205px;
+		width: 250px;
 	}
 
 	.redux-logo {
-		width: 125px;
+		width: 150px;
 		margin: 0 0 15px 0;
 	}
 
 	.mongo-db-logo {
-		width: 250px;
+		width: 270px;
 		margin: 0 0 20px 0;
 	}
 
@@ -3551,4 +3551,12 @@ input, select, textarea {
 
 	.javascript-logo {
 		width: 140px;
+	}
+
+	.jquery-logo {
+		width: 160px;
+	}
+
+	.html-logo {
+		width: 150px;
 	}
