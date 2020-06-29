@@ -3516,14 +3516,19 @@ input, select, textarea {
 	}
 
 	.react-logo {
-		width: 200px;
+		width: 205px;
 	}
 
 	.redux-logo {
 		width: 125px;
+		margin: 0 0 15px 0;
 	}
 
 	.mongo-db-logo {
 		width: 250px;
 		margin: 0 0 20px 0;
+	}
+
+	.express-logo {
+		width: 200px;
 	}
