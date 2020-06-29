@@ -3514,3 +3514,11 @@ input, select, textarea {
 	.skills {
 		text-align: center;
 	}
+
+	.react-logo {
+		width: 200px;
+	}
+
+	.redux-logo {
+		width: 125px;
+	}
